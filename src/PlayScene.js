@@ -176,7 +176,7 @@ class PlayScene extends Phaser.Scene {
             this.gameOverScreen.setAlpha(0);
             this.anims.resumeAll();
         })
-        this.input.keyboard.on('keyup-' + 'SPACE', function (event) {
+        this.input.keyboard.on('keydown-' + 'SPACE', function (event) {
             if (!this.dino.body.onFloor() || this.dino.body.velocity.x > 0) { return; }
             
             this.jumpSound.play();
