@@ -225,7 +225,7 @@ class PlayScene extends Phaser.Scene {
                 this.dino.body.offset.y = 0;
                 this.dino.setVelocityY(-1600);
                 this.dino.setTexture('dino', 0);
-            })
+            },this);
         } else {
             this.input.keyboard.on('keydown-' + 'SPACE', function (event) {
                 if (!this.dino.body.onFloor() || this.dino.body.velocity.x > 0) { return; }
