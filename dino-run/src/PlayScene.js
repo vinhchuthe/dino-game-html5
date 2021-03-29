@@ -9,7 +9,6 @@ class PlayScene extends Phaser.Scene {
         this.isGameRunning = false;
         this.respawnTime = 0;
         this.score = 0;
-        this.restartStatus = false;
 
         this.jumpSound = this.sound.add('jump', { volume: 0.2 });
         this.hitSound = this.sound.add('hit', { volume: 0.2 });
@@ -69,7 +68,6 @@ class PlayScene extends Phaser.Scene {
 
             this.physics.pause();
             this.isGameRunning = false;
-            this.restartStatus = true;
             this.anims.pauseAll();
             this.dino.setTexture('dino-hurt');
             this.respawnTime = 0;
@@ -177,7 +175,6 @@ class PlayScene extends Phaser.Scene {
             this.isGameRunning = true;
             this.gameOverScreen.setAlpha(0);
             this.anims.resumeAll();
-            this.restartStatus = false;
         })
         this.input.keyboard.on('keydown-' + 'DOWN', (event) => {
             if (!this.dino.body.onFloor() || !this.isGameRunning) { return; }
@@ -215,18 +212,21 @@ class PlayScene extends Phaser.Scene {
         obsticle.setImmovable();
     }
 
+    // check event mb
     checkmb() {
         if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            alert("mobile");
             this.input.on('pointerdown', (e) => {
-                if (!this.restartStatus) { return; }
                 if (!this.dino.body.onFloor() || this.dino.body.velocity.x > 0) { return; }
                 this.jumpSound.play();
                 this.dino.body.height = 92;
                 this.dino.body.offset.y = 0;
                 this.dino.setVelocityY(-1600);
                 this.dino.setTexture('dino', 0);
-            },this);
-        } else {
+            }, this);
+        }
+        else {
+            alert("PC");
             this.input.keyboard.on('keydown-' + 'SPACE', function (event) {
                 if (!this.dino.body.onFloor() || this.dino.body.velocity.x > 0) { return; }
 
