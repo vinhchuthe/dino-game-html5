@@ -34,6 +34,22 @@ class Play extends Phaser.Scene {
 
         // generateCar
         this.cars = this.physics.add.group();
+
+        // generateStar
+        this.stars = this.physics.add.group();
+
+        this.initCollider();
+    }
+
+    initCollider() {
+        // this.physics.add.collider(this.player, this.cars, () => {
+        //     this.physics.pause();
+        //     this.isDead = true;
+        // }, null, this);
+        this.physics.add.collider(this.stars, this.cars);
+        this.physics.add.overlap(this.stars, this.cars, function (star, car) {
+            star.disableBody(true, true);
+        }, null, this);
     }
 
     update(time, delta) {
@@ -51,6 +67,7 @@ class Play extends Phaser.Scene {
         respawnTime += delta + this.tileSpeed;
         if (respawnTime >= 2000) {
             this.generateCars();
+            setTimeout(this.generateStars(), 1000);
             respawnTime = 0;
         }
 
@@ -63,6 +80,7 @@ class Play extends Phaser.Scene {
 
         // Speed object overtime
         this.cars.setVelocityY(yVelocity * this.tileSpeed);
+        this.stars.setVelocityY(yVelocity * this.tileSpeed);
 
         // handleinput
         if (this.cursors.left.isDown) {
@@ -81,11 +99,11 @@ class Play extends Phaser.Scene {
         var carPos = Math.floor(Math.random() * 4);
         randomCar = this.cars.create(163 + (128 * carPos), -131, `cars`).setOrigin(0, 0);
         randomCar.setImmovable();
-
-        console.log('gen car');
     }
     generateStars() {
         let randomStar;
         var starPos = Math.floor(Math.random() * 4);
+        randomStar = this.stars.create(170 + (128 * starPos), -131, `stars`).setOrigin(0, 0);
+        randomStar.setImmovable();
     }
 }
