@@ -7,7 +7,7 @@ var maxVel = 300;
 var drag = 1000;
 var interval = [0.5, 1, 2];
 var respawnTime = 0;
-var score = 0
+var score;
 var highScore = 0;
 
 class Scene2 extends Phaser.Scene {
@@ -21,11 +21,22 @@ class Scene2 extends Phaser.Scene {
         this.load.image('stars', 'assets/objects/star.png');
         this.load.image('rocks', 'assets/objects/rock.png');
         this.load.spritesheet('player', 'assets/objects/player.png', { frameWidth: 71, frameHeight: 131 });
+
+        this.load.path = 'assets/animations/';
+        this.load.image('bomb1', 'explosion01.png');
+        this.load.image('bomb2', 'explosion02.png');
+        this.load.image('bomb3', 'explosion03.png');
+        this.load.image('bomb4', 'explosion04.png');
+        this.load.image('bomb5', 'explosion05.png');
+        this.load.image('bomb6', 'explosion06.png');
+        this.load.image('bomb7', 'explosion07.png');
+        this.load.image('bomb8', 'explosion08.png');
     }
     create() {
         this.scrollSpeed = 0;
         this.carSpeed = 175;
         this.isDead = false;
+        score = 0;
 
         // add keys
         this.cursors = this.input.keyboard.createCursorKeys();
@@ -59,24 +70,35 @@ class Scene2 extends Phaser.Scene {
         // score
         this.scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
 
-        // gameOverScreen
-        // this.gameOverScreen = this.add.container(0, 0);
-        // this.gameOverScreen.setAlpha(0);
-        // this.gameOverBg = this.add.image(0, 0, 'map');
-        // this.gameOverScreen.add(this.gameOverBg);
+        // explosion
+        this.anims.create({
+            key: 'explosion',
+            frames: [
+                { key: 'bomb1' },
+                { key: 'bomb2' },
+                { key: 'bomb3' },
+                { key: 'bomb4' },
+                { key: 'bomb5' },
+                { key: 'bomb6' },
+                { key: 'bomb7' },
+                { key: 'bomb8', duration: 50 }
+            ],
+            frameRate: 8,
+            repeat: 1
+        });
 
         this.initCollider();
     }
 
     initCollider() {
+
+        this.physics.add.overlap(this.player, this.stars, this.collectStar, null, this);
         this.physics.add.collider(this.player, this.cars, this.gameOver, null, this);
         this.physics.add.collider(this.player, this.rocks, this.gameOver, null, this);
         this.physics.add.collider(this.stars, this.cars);
         this.physics.add.overlap(this.stars, this.cars, function (star, car) {
             star.disableBody(true, true);
         }, null, this);
-
-        this.physics.add.overlap(this.player, this.stars, this.collectStar, null, this);
 
     }
 
@@ -120,7 +142,6 @@ class Scene2 extends Phaser.Scene {
         let randomCar;
         var carPos = Math.floor(Math.random() * 4);
         randomCar = this.cars.create(163 + (128 * carPos), -131, `cars`).setOrigin(0, 0);
-        // randomCar.setImmovable();
         rndCarTime = Phaser.Math.RND.pick(interval);
 
     }
@@ -131,14 +152,12 @@ class Scene2 extends Phaser.Scene {
         var starPos = Math.floor(Math.random() * 4);
         randomStar = this.stars.create(170 + (128 * starPos), -131, `stars`).setOrigin(0, 0);
         rndStarTime = Phaser.Math.RND.pick(starTime);
-        // randomStar.setImmovable();
     }
 
     generateRocks() {
         var rockPos = [64, 704];
         let randomRock;
         randomRock = this.rocks.create(Phaser.Math.RND.pick(rockPos), -300, `rocks`);
-        // randomRock.setImmovable();
     }
 
     collectStar(player, star) {
@@ -147,11 +166,18 @@ class Scene2 extends Phaser.Scene {
         this.scoreText.setText('score: ' + score);
     }
     gameOver() {
+        this.add.sprite(this.player.body.x, this.player.body.y, 'bomb1').setOrigin(0.5, 0.5).play('explosion');
         this.physics.pause();
         this.isDead = true;
         if (highScore < score) {
             highScore = score;
         }
-        this.scene.start('Scene3', { score: score, highScore: highScore });
+        this.time.addEvent({
+            delay: 1000,
+            loop: false,
+            callback: () => {
+                this.scene.start('Scene3', { score: score, highScore: highScore });
+            }
+        })
     }
 }

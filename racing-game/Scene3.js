@@ -3,7 +3,6 @@ class Scene3 extends Phaser.Scene {
         super({ key: 'Scene3' })
     }
     init(data) {
-        console.log(data);
         this.score = data.score;
         this.highScore = data.highScore;
     }
