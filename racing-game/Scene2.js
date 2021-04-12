@@ -20,6 +20,8 @@ class Scene2 extends Phaser.Scene {
         this.load.image('cars', 'assets/objects/cars.png');
         this.load.image('stars', 'assets/objects/star.png');
         this.load.image('rocks', 'assets/objects/rock.png');
+        this.load.audio('carEngine', 'assets/audio/car-engine-loop.wav');
+        this.load.audio('explode', 'assets/audio/Explosion.wav');
         this.load.spritesheet('player', 'assets/objects/player.png', { frameWidth: 71, frameHeight: 131 });
 
         this.load.path = 'assets/animations/';
@@ -85,6 +87,28 @@ class Scene2 extends Phaser.Scene {
             ],
             frameRate: 8,
             repeat: 1
+        });
+
+        // audio
+        this.carEngine = this.sound.add('carEngine', {
+            mute: false,
+            volume: 2,
+            rate: 1,
+            detune: 0,
+            seek: 0,
+            loop: true,
+            delay: 0
+        });
+        this.carEngine.play();
+
+        this.explode = this.sound.add('explode', {
+            mute: false,
+            volume: 2,
+            rate: 1,
+            detune: 0,
+            seek: 0,
+            loop: false,
+            delay: 0
         });
 
         this.initCollider();
@@ -168,6 +192,8 @@ class Scene2 extends Phaser.Scene {
     gameOver() {
         this.add.sprite(this.player.body.x, this.player.body.y, 'bomb1').setOrigin(0.5, 0.5).play('explosion');
         this.physics.pause();
+        this.explode.play();
+        this.carEngine.stop();
         this.isDead = true;
         if (highScore < score) {
             highScore = score;
