@@ -1,8 +1,13 @@
 var config = {
     type: Phaser.AUTO,
     // pixleArt: true,
-    width: 768,
-    height: window.innerHeight,
+
+    scale: {
+        mode: Phaser.Scale.FIT,
+        autoCenter: Phaser.Scale.CENTER_BOTH,
+        width: 768,
+        height: 757,
+    },
     physics: {
         default: 'arcade',
         arcade: {
