@@ -24,6 +24,9 @@ class Scene2 extends Phaser.Scene {
         this.load.audio('explode', 'assets/audio/Explosion.wav');
         this.load.spritesheet('player', 'assets/objects/player.png', { frameWidth: 71, frameHeight: 131 });
 
+        this.load.image('left-btn', 'assets/map/left-button.png');
+        this.load.image('right-btn', 'assets/map/right-button.png');
+
         this.load.path = 'assets/animations/';
         this.load.image('bomb1', 'explosion01.png');
         this.load.image('bomb2', 'explosion02.png');
@@ -39,6 +42,12 @@ class Scene2 extends Phaser.Scene {
         this.carSpeed = 175;
         this.isDead = false;
         score = 0;
+        this.isDown = false;
+        this.is_holding = {
+            left: false,
+            right: false,
+            direction: false
+        }
 
         // add keys
         this.cursors = this.input.keyboard.createCursorKeys();
@@ -111,6 +120,7 @@ class Scene2 extends Phaser.Scene {
             delay: 0
         });
 
+        this.createControl();
         this.initCollider();
     }
 
@@ -139,6 +149,8 @@ class Scene2 extends Phaser.Scene {
         }
 
         this.player.angle = angleVar;
+        var bodyX = this.player;
+
 
         // Background movement
         this.grass1.tilePositionY += -this.tileSpeed;
@@ -150,15 +162,68 @@ class Scene2 extends Phaser.Scene {
         this.stars.setVelocityY(yVelocity * this.tileSpeed);
         this.rocks.setVelocityY(yVelocity * this.tileSpeed);
 
-        // handleinput
-        if (this.cursors.left.isDown) {
+
+        // handleinput-touch
+        if (this.is_holding.direction === 'left') {
             this.player.body.velocity.x -= xVelocity;
             angleVar = -15;
-        } else if (this.cursors.right.isDown) {
+        } else if (this.is_holding.direction === 'right') {
             this.player.body.velocity.x += xVelocity;
             angleVar = 15;
         } else {
+            this.player.body.velocity.x = 0;
             angleVar = 0;
+        }
+    }
+
+    createControl() {
+        // keyboard
+        this.keyLeft = this.input.keyboard.addKey('LEFT');  // Get key object
+        this.keyLeft.on('down', this.holdLeft, this);
+        this.keyLeft.on('up', this.releaseLeft, this);
+
+        this.keyRight = this.input.keyboard.addKey('RIGHT');  // Get key object
+        this.keyRight.on('down', this.holdRight, this);
+        this.keyRight.on('up', this.releaseRight, this);
+
+        // touch
+        this.leftButton = this.add.image(126, this.game.config.height - 80, 'left-btn').setInteractive();
+        this.rightButton = this.add.image(this.game.config.width - 126, this.game.config.height - 80, 'right-btn').setInteractive();
+        this.leftButton.setDepth(1);
+        this.rightButton.setDepth(1);
+
+        this.leftButton.on('pointerdown', this.holdLeft, this);
+        this.leftButton.on('pointerup', this.releaseLeft, this);
+
+        this.rightButton.on('pointerdown', this.holdRight, this);
+        this.rightButton.on('pointerup', this.releaseRight, this);
+    }
+
+    holdLeft() {
+        this.is_holding.left = true;
+        this.is_holding.direction = 'left';
+    }
+
+    holdRight() {
+        this.is_holding.right = true;
+        this.is_holding.direction = 'right';
+    }
+
+    releaseLeft() {
+        this.is_holding.left = false;
+        if (this.is_holding.right) {
+            this.is_holding.direction = 'right'
+        } else {
+            this.is_holding.direction = false;
+        }
+    }
+
+    releaseRight() {
+        this.is_holding.right = false;
+        if (this.is_holding.left) {
+            this.is_holding.direction = 'left'
+        } else {
+            this.is_holding.direction = false;
         }
     }
 
@@ -167,7 +232,6 @@ class Scene2 extends Phaser.Scene {
         var carPos = Math.floor(Math.random() * 4);
         randomCar = this.cars.create(163 + (128 * carPos), -131, `cars`).setOrigin(0, 0);
         rndCarTime = Phaser.Math.RND.pick(interval);
-
     }
 
     generateStars() {
