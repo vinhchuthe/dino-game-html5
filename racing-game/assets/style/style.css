@@ -1,0 +1,44 @@
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+#game-content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  background-color: black;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  position: relative;
+}
+
+#game-content canvas {
+  margin-left: 0 !important;
+  position: relative;
+}
+
+#game-content::after {
+  content: "";
+  background-image: url("../banner/banner-test.png");
+  background-size: 100% 100%;
+  width: 200px;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+#game-content::before {
+  content: "";
+  background-image: url("../banner/banner-test.png");
+  background-size: 100% 100%;
+  width: 200px;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+/*# sourceMappingURL=style.css.map */

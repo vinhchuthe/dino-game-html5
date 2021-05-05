@@ -11,10 +11,10 @@ class Scene3 extends Phaser.Scene {
     }
     create() {
         this.add.image(0, 0, 'bg').setOrigin(0, 0);
-        this.gameTitle = this.add.text(220, 200, 'Game Over', { fontSize: '62px', fill: '#000' });
-        this.gameScore = this.add.text(290, 400, 'Score: ' + this.score, { fontSize: '32px', fill: '#000' });
-        this.gameHighScore = this.add.text(255, 500, 'HighScore: ' + this.highScore, { fontSize: '32px', fill: '#000' });
-        this.restart = this.add.rectangle(195, 600, 32, 32, 0xff00ff);
+        this.gameTitle = this.add.text(this.game.config.width / 2, 200, 'Game Over', { fontSize: '62px', fill: '#000' }).setOrigin(0.5, 0.5);
+        this.gameScore = this.add.text(this.game.config.width / 2, 400, 'Score: ' + this.score, { fontSize: '32px', fill: '#000' }).setOrigin(0.5, 0.5);
+        this.gameHighScore = this.add.text(this.game.config.width / 2, 500, 'HighScore: ' + this.highScore, { fontSize: '32px', fill: '#000' }).setOrigin(0.5, 0.5);
+        this.restart = this.add.rectangle(this.game.config.width / 2, 600, 32, 32, 0xff00ff);
         this.restart.setInteractive();
 
         this.restart.on('pointerdown', () => {
