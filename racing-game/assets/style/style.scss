@@ -16,7 +16,7 @@ body {
     }
     &::after {
         content: "";
-        background-image: url('../banner/banner-test.png');
+        background-image: url("../banner/banner-test.png");
         background-size: 100% 100%;
         width: 200px;
         height: 100vh;
@@ -26,12 +26,19 @@ body {
     }
     &::before {
         content: "";
-        background-image: url('../banner/banner-test.png');
+        background-image: url("../banner/banner-test.png");
         background-size: 100% 100%;
         width: 200px;
         height: 100vh;
         position: absolute;
         top: 0;
         right: 0;
+    }
+
+    @media (max-width: 1200px) {
+        &::after,
+        &::before {
+            display: none;
+        }
     }
 }
