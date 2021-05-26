@@ -18,6 +18,7 @@ class gameScene extends Phaser.Scene {
         this.scrollSpeed = 0;
         this.isHit = false;
         this.isDead = false;
+        this.gravity = 750
         score = 0;
         highScore = 0;
         scoreLimit = 0;
@@ -48,7 +49,7 @@ class gameScene extends Phaser.Scene {
         this.player.setDepth(6);
         this.player.setScale(0.4);
         this.player.setBounce(0);
-        this.player.body.gravity.y = 750;
+        this.player.body.gravity.y = this.gravity;
         this.player.setCollideWorldBounds(true);
 
         // input
@@ -300,6 +301,7 @@ class gameScene extends Phaser.Scene {
 
         if (scoreLimit >= 100) {
             this.gameSpeed += 0.5;
+            this.gravity += 100;
             scoreLimit = 0;
         }
         if (this.respawnTime >= 1000) {
