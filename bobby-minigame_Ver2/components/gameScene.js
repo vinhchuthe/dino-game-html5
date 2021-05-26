@@ -260,7 +260,22 @@ class gameScene extends Phaser.Scene {
         if (this.livesCounter == 0) {
             this.gameEnd();
         }
-        obsticles.destroy();
+
+        this.blink = this.tweens.add({
+            targets: this.player,
+            alpha: 0,
+            duration: 100,
+            ease: 'Power2',
+            yoyo: true,
+            loop: 3,
+        });
+
+        if (this.player.body.onFloor()) {
+            obsticles.destroy();
+        } else {
+            this.player.body.velocity.y = -320;
+            obsticles.destroy();
+        }
     }
 
 

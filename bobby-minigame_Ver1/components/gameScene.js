@@ -1,27 +1,33 @@
-var interval = [100, 200, 300];
+// var interval = [100, 200, 300];
 var isGameRunning = false;
 var rndhighItemsTime = 1;
 var rndmidItemsTime = 1;
 var rndlowItemsTime = 1;
 var score;
+var scoreLimit;
 var highScore = 0;
 
 
 class gameScene extends Phaser.Scene {
     constructor() {
-        super({ key: 'gameScene' })
+        super({
+            key: 'gameScene'
+        })
     }
     create() {
         this.scrollSpeed = 0;
         this.isHit = false;
         this.isDead = false;
         score = 0;
-        this.gameSpeed = 2;
+        highScore = 0;
+        scoreLimit = 0;
+        this.gameSpeed = 3;
         this.respawnTime = 0;
         this.gameTime = 0;
         this.times = 0;
         this.livesCounter = 5;
         this.lives = null;
+        isGameRunning = true;
 
 
         // background
@@ -53,22 +59,42 @@ class gameScene extends Phaser.Scene {
         // obsticles
         this.obsticles = this.physics.add.group();
 
-        // // highpay Items
+        // highpay Items
         this.highItems = this.physics.add.group();
         rndhighItemsTime = Phaser.Math.Between(5, 10);
-        this.highItemsTimer = this.time.addEvent({ delay: 27000, callback: this.highItemsPay, callbackScope: this, loop: false, repeat: 1 }, this);
+        this.highItemsTimer = this.time.addEvent({
+            delay: 27000,
+            callback: this.highItemsPay,
+            callbackScope: this,
+            loop: false,
+            repeat: 1
+        }, this);
 
-        // // midpay Items
+        // midpay Items
         this.midItems = this.physics.add.group();
-        this.midItemsTimer = this.time.addEvent({ delay: 17000, callback: this.midItemsPay, callbackScope: this, loop: false, repeat: 3 }, this);
+        this.midItemsTimer = this.time.addEvent({
+            delay: 17000,
+            callback: this.midItemsPay,
+            callbackScope: this,
+            loop: false,
+            repeat: 3
+        }, this);
 
         // lowpay Items
         this.lowItems = this.physics.add.group();
         // this.lowItemsTimer = this.time.addEvent({ delay: 1500 * rndlowItemsTime, callback: this.lowItemsPay, callbackScope: this, loop: true }, this);
-        this.lowItemsTimer = this.time.addEvent({ delay: 5000, callback: this.lowItemsPay, callbackScope: this, loop: true }, this);
+        this.lowItemsTimer = this.time.addEvent({
+            delay: 5000,
+            callback: this.lowItemsPay,
+            callbackScope: this,
+            loop: true
+        }, this);
 
         // score
-        this.scoreText = this.add.text(this.game.config.width - 110, 30, 'score: 0', { fontSize: '16px', fill: '#000' });
+        this.scoreText = this.add.text(this.game.config.width - 110, 30, 'score: 0', {
+            fontSize: '16px',
+            fill: '#000'
+        });
 
         // lives
         this.lives = this.add.group();
@@ -192,16 +218,27 @@ class gameScene extends Phaser.Scene {
 
 
     update(time, delta) {
+        if (!isGameRunning) {
+            return;
+        }
+        if (this.isDead) {
+            this.gameSpeed = 0;
+        } else {
+            this.background.tilePositionX += this.gameSpeed;
+            Phaser.Actions.IncX(this.obsticles.getChildren(), -this.gameSpeed);
+            Phaser.Actions.IncX(this.highItems.getChildren(), -this.gameSpeed);
+            Phaser.Actions.IncX(this.midItems.getChildren(), -this.gameSpeed);
+            Phaser.Actions.IncX(this.lowItems.getChildren(), -this.gameSpeed);
+        }
 
-        // if (!isGameRunning) { return; }
-        this.background.tilePositionX += this.gameSpeed;
-        Phaser.Actions.IncX(this.obsticles.getChildren(), -this.gameSpeed);
-        Phaser.Actions.IncX(this.highItems.getChildren(), -this.gameSpeed);
-        Phaser.Actions.IncX(this.midItems.getChildren(), -this.gameSpeed);
-        Phaser.Actions.IncX(this.lowItems.getChildren(), -this.gameSpeed);
 
         this.respawnTime += delta * this.gameSpeed * 0.08;
-        if (this.respawnTime >= 2000) {
+
+        if (scoreLimit >= 100) {
+            this.gameSpeed += 0.5;
+            scoreLimit = 0;
+        }
+        if (this.respawnTime >= 1000) {
             this.placeObsticle();
             this.respawnTime = 0;
         }
@@ -219,9 +256,6 @@ class gameScene extends Phaser.Scene {
             }
         });
 
-
-        isGameRunning = true;
-
         if (isGameRunning) {
             if (this.player.body.onFloor()) {
                 this.player.anims.play('player-run', true);
@@ -231,7 +265,7 @@ class gameScene extends Phaser.Scene {
 
         if (this.cursors.space.isDown) {
             if (this.player.body.onFloor()) {
-                this.player.body.velocity.y = -550;
+                this.player.body.velocity.y = -520;
                 this.player.anims.play('player-jump');
             }
         }
