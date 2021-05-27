@@ -24,8 +24,6 @@ class gameScene extends Phaser.Scene {
         scoreLimit = 0;
         this.gameSpeed = 3;
         this.respawnTime = 0;
-        this.gameTime = 0;
-        this.times = 0;
         this.livesCounter = 5;
         this.lives = null;
         isGameRunning = true;
@@ -163,7 +161,7 @@ class gameScene extends Phaser.Scene {
     // --------------- placeObsticle -----------------
     placeObsticle() {
         const obsticleNum = Math.floor(Math.random() * 7) + 1;
-        const distance = Phaser.Math.Between(300, 500);
+        const distance = Phaser.Math.Between(200, 400);
         let obsticle;
         if (obsticleNum > 0 && obsticleNum <= 3) {
             obsticle = this.obsticles.create(this.game.config.width + distance, this.game.config.height - 40, 'object1')
@@ -220,6 +218,12 @@ class gameScene extends Phaser.Scene {
             low.disableBody(true, true);
         }, null, this);
         this.physics.add.overlap(this.peoples, this.highItems, function (peoples, highItems) {
+            peoples.disableBody(true, true);
+        }, null, this);
+        this.physics.add.overlap(this.peoples, this.highItems, function (peoples, midItems) {
+            peoples.disableBody(true, true);
+        }, null, this);
+        this.physics.add.overlap(this.peoples, this.highItems, function (peoples, obsticles) {
             peoples.disableBody(true, true);
         }, null, this);
         this.physics.add.overlap(this.player, this.lowItems, this.collectLowItems, null, this);
@@ -301,19 +305,13 @@ class gameScene extends Phaser.Scene {
 
         if (scoreLimit >= 100) {
             this.gameSpeed += 0.5;
-            this.gravity += 100;
+            this.gravity += 150;
             scoreLimit = 0;
         }
-        if (this.respawnTime >= 1000) {
+        if (this.respawnTime >= 700) {
             this.placeEnviroment();
             this.placeObsticle();
             this.respawnTime = 0;
-        }
-
-        this.times += delta;
-        if (this.times > 1000) {
-            this.gameTime += 1;
-            this.times = 0;
         }
 
 

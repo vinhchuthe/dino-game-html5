@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
         type: Phaser.AUTO,
         width: 700,
         height: 400,
+        roundPixels: true,
         scale: {
             mode: Phaser.Scale.FIT,
             parent: 'game-content',
@@ -20,4 +21,4 @@ document.addEventListener("DOMContentLoaded", function () {
         },
         scene: [Preload, titleScreen, gameScene, gameOver]
     });
-});  
+});
