@@ -23,14 +23,14 @@ class Preload extends Phaser.Scene {
 
         this.load.image('highItem', 'assets/highItems.png');
         this.load.image('midItem', 'assets/midItems.png');
-        this.load.image('lowItem1','assets/lowItem1.png');
-        this.load.image('lowItem2','assets/lowItem2.png');
-        this.load.image('lowItem3','assets/lowItem3.png');
-        
+        this.load.image('lowItem1', 'assets/lowItem1.png');
+        this.load.image('lowItem2', 'assets/lowItem2.png');
+        this.load.image('lowItem3', 'assets/lowItem3.png');
+
         this.load.image('btn-bg', 'assets/button-bg.png');
         this.load.image('btn-text', 'assets/button-text.png');
 
-        this.load.atlas('robo', 'assets/player.png', 'assets/player.json');
+        this.load.atlas('bobby', 'assets/player.png', 'assets/player.json');
 
     }
     create() {

@@ -1,8 +1,4 @@
-// var interval = [100, 200, 300];
 var isGameRunning = false;
-// var rndhighItemsTime = 1;
-// var rndmidItemsTime = 1;
-// var rndlowItemsTime = 1;
 var score;
 var scoreLimit;
 var highScore = 0;
@@ -41,11 +37,12 @@ class gameScene extends Phaser.Scene {
 
 
         // player
-        this.player = this.physics.add.sprite(50, this.game.config.height - 90, 'robo');
-        this.player.body.setSize(this.player.width * 0.7, this.player.height * 0.8);
-        this.player.body.offset.y = 54;
+        this.player = this.physics.add.sprite(50, this.game.config.height - 180, 'bobby');
+        this.player.body.setSize(this.player.width, this.player.height);
+        this.player.body.offset.y = 0;
+        this.player.body.offset.x = 0;
         this.player.setDepth(6);
-        this.player.setScale(0.4);
+        this.player.setScale(0.32);
         this.player.setBounce(0);
         this.player.body.gravity.y = this.gravity;
         this.player.setCollideWorldBounds(true);
@@ -254,7 +251,6 @@ class gameScene extends Phaser.Scene {
     }
 
     hurtPlayer(player, obsticles) {
-        console.log(this.livesCounter);
         this.isHit = true;
         var live;
         live = this.lives.getFirstAlive();
@@ -265,6 +261,7 @@ class gameScene extends Phaser.Scene {
         if (this.livesCounter == 0) {
             this.gameEnd();
         }
+        
 
         this.blink = this.tweens.add({
             targets: this.player,
@@ -276,8 +273,10 @@ class gameScene extends Phaser.Scene {
         });
 
         if (this.player.body.onFloor()) {
+            this.player.anims.play('player-hurt', true);
             obsticles.destroy();
         } else {
+            this.player.anims.play('player-hurt', true);
             this.player.body.velocity.y = -320;
             obsticles.destroy();
         }
@@ -341,20 +340,30 @@ class gameScene extends Phaser.Scene {
     animation() {
         this.anims.create({
             key: "player-run",
-            frames: this.anims.generateFrameNames('robo', {
-                prefix: 'character_robot_walk',
+            frames: this.anims.generateFrameNames('bobby', {
+                prefix: 'bobby-run_',
                 suffix: '.png',
-                start: 0,
-                end: 7
+                start: 1,
+                end: 4
             }),
             frameRate: 12,
             repeat: -1
         });
+
         this.anims.create({
             key: "player-jump",
             frames: [{
-                key: 'robo',
-                frame: 'character_robot_fall.png'
+                key: 'bobby',
+                frame: 'bobby-jump_2.png'
+            }],
+            frameRate: 12
+        });
+
+        this.anims.create({
+            key: "player-hurt",
+            frames: [{
+                key: 'bobby',
+                frame: 'bobby-dead.png'
             }],
             frameRate: 12
         });
