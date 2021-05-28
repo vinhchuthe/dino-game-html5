@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 gravity: {
                     y: 0
                 },
-                debug: true
+                debug: false
             }
         },
         scene: [Preload, titleScreen, gameScene, gameOver]
