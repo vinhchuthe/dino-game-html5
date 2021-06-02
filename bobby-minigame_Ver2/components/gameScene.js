@@ -90,18 +90,13 @@ class gameScene extends Phaser.Scene {
         }, this);
 
         // score
-        // this.scoreGroup = this.add.container();
         this.scoreBg = this.add.image(this.game.config.width / 2 - 210, 40, 'score-bg').setOrigin(0.5, 0.5).setScale(0.5);
         this.scoreText = this.add.text(this.game.config.width / 2 - 210, 25, '0', {
             fontSize: '35px',
             fill: '#000'
         });
-        // this.scoreGroup.add([
-        //     this.scoreBg, this.scoreText
-        // ]);
 
         // lives
-        // this.liveGroup = this.add.container();
         this.liveBg = this.add.image(130, 40, 'heart-bg').setOrigin(0.5, 0.5).setScale(0.5);
         this.lives = this.add.group();
         var liveX = 215;
@@ -396,15 +391,11 @@ class gameScene extends Phaser.Scene {
     // -------- Timer handle -------------
     timer() {
         this.timeLimit = 90;
-        // this.timeGroup = this.add.container();
         this.timeBg = this.add.image(this.game.config.width - 110, 35, 'clock-bg').setOrigin(0.5, 0.5).setScale(0.45);
         this.timeText = this.add.text(this.game.config.width - 105, 23, '90', {
             fontSize: '30px',
             fill: '#000'
         });
-        // this.timeGroup.add([
-        //     this.timeBg, this.timeText
-        // ]);
         this.timeText.fill = '#000000';
         this.timers = this.time.addEvent({
             delay: 1000,
@@ -434,7 +425,6 @@ class gameScene extends Phaser.Scene {
 
     outofTime() {
         this.gameEnd();
-        // this.timeLimit = 90;
     }
 
 
