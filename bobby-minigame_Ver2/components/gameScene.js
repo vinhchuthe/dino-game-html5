@@ -19,7 +19,7 @@ class gameScene extends Phaser.Scene {
         score = 0;
         highScore = 0;
         scoreLimit = 0;
-        this.gameSpeed = 4;
+        this.gameSpeed = 4.5;
         this.respawnTime = 0;
         this.livesCounter = 5;
         this.lives = null;
@@ -316,7 +316,7 @@ class gameScene extends Phaser.Scene {
         this.respawnTime += delta * this.gameSpeed * 0.08;
 
         if (scoreLimit >= 100) {
-            this.gameSpeed += 0.6;
+            this.gameSpeed += 0.7;
             this.maxVelocity -= 10;
             this.gravity += 100;
             scoreLimit = 0;
