@@ -15,10 +15,11 @@ class gameScene extends Phaser.Scene {
         this.isHit = false;
         this.isDead = false;
         this.gravity = 750
+        this.maxVelocity = 720;
         score = 0;
         highScore = 0;
         scoreLimit = 0;
-        this.gameSpeed = 3;
+        this.gameSpeed = 4;
         this.respawnTime = 0;
         this.livesCounter = 5;
         this.lives = null;
@@ -26,35 +27,36 @@ class gameScene extends Phaser.Scene {
 
 
         // background
-        // this.bg = this.add.image(0, 0, 'title-bg').setScale(2);
         this.background = this.add.tileSprite(0, 0, this.game.config.width, this.game.config.height, 'game-bg').setOrigin(0, 0);
 
         // physics platform
         this.platform = this.physics.add.sprite(0, this.game.config.height, 'platform');
-        this.platform.setSize(this.game.config.width * 2, 70);
+        this.platform.setSize(this.game.config.width * 3, this.game.config.height / 5);
+        this.platform.setDepth(6);
         this.platform.setImmovable();
         this.platform.setAlpha(0);
 
 
         // player
-        this.player = this.physics.add.sprite(50, this.game.config.height - 180, 'bobby');
-        this.player.body.setSize(this.player.width, this.player.height);
+        this.player = this.physics.add.sprite(100, this.game.config.height - 480, 'bobby');
+        this.player.body.setSize(this.player.width + 5, this.player.height, true);
         this.player.body.offset.y = 0;
-        this.player.body.offset.x = 0;
+        this.player.body.offset.x = 10;
         this.player.setDepth(6);
-        this.player.setScale(0.32);
+        this.player.setScale(0.8);
         this.player.setBounce(0);
         this.player.body.gravity.y = this.gravity;
         this.player.setCollideWorldBounds(true);
 
-        // input
-        this.cursors = this.input.keyboard.createCursorKeys();
+        // gameOver Text
+        this.gameOverText = this.add.image(this.game.config.width / 2 - 1600, this.game.config.height / 2, 'gameover').setOrigin(0.5, 0.5).setScale(0.8).setDepth(7);
 
         // collider
         this.physics.add.collider(this.player, this.platform);
 
         // obsticles
         this.obsticles = this.physics.add.group();
+
         // people
         this.peoples = this.physics.add.group();
 
@@ -81,27 +83,43 @@ class gameScene extends Phaser.Scene {
         // lowpay Items
         this.lowItems = this.physics.add.group();
         this.lowItemsTimer = this.time.addEvent({
-            delay: 4000,
+            delay: 3000,
             callback: this.lowItemsPay,
             callbackScope: this,
             loop: true
         }, this);
 
         // score
-        this.scoreText = this.add.text(this.game.config.width - 110, 30, 'score: 0', {
-            fontSize: '16px',
+        // this.scoreGroup = this.add.container();
+        this.scoreBg = this.add.image(this.game.config.width / 2 - 210, 40, 'score-bg').setOrigin(0.5, 0.5).setScale(0.5);
+        this.scoreText = this.add.text(this.game.config.width / 2 - 210, 25, '0', {
+            fontSize: '35px',
             fill: '#000'
         });
+        // this.scoreGroup.add([
+        //     this.scoreBg, this.scoreText
+        // ]);
 
         // lives
+        // this.liveGroup = this.add.container();
+        this.liveBg = this.add.image(130, 40, 'heart-bg').setOrigin(0.5, 0.5).setScale(0.5);
         this.lives = this.add.group();
-        var liveX = 130;
-        var liveY = 20;
+        var liveX = 215;
+        var liveY = 40;
         for (var i = 0; i < 4; i++) {
-            var liveSprite = this.lives.create(liveX - 100 + 30 * i, liveY, 'carrot');
-            liveSprite.setOrigin(0.5, 0.5);
+            var liveSprite = this.lives.create(liveX - 100 + 30 * i, liveY, 'heart');
+            liveSprite.setOrigin(0.5, 0.5).setScale(0.5);
         }
 
+
+        // input
+        this.cursors = this.input.keyboard.createCursorKeys();
+        this.input.on('pointerdown', () => {
+            if (this.player.body.onFloor()) {
+                this.player.body.velocity.y = -this.maxVelocity;
+                this.player.anims.play('player-jump');
+            }
+        }, null, this);
 
 
         // anims
@@ -110,10 +128,10 @@ class gameScene extends Phaser.Scene {
         // Timer
         this.timer();
 
-        // Obsticle
+        // // Obsticle
         this.placeObsticle();
 
-        // enviroment
+        // // enviroment
         this.placeEnviroment();
 
         // collider
@@ -128,29 +146,29 @@ class gameScene extends Phaser.Scene {
         let people;
         switch (envirNum) {
             case 1:
-                people = this.peoples.create(this.game.config.width + distance, this.game.config.height - 90, 'people1')
-                    .setOrigin(0, 1).setScale(0.4);
+                people = this.peoples.create(this.game.config.width + distance, this.game.config.height - 180, 'people1')
+                    .setOrigin(0, 1).setScale(0.9);
                 break;
             case 2:
-                people = this.peoples.create(this.game.config.width + distance, this.game.config.height - 90, 'people2')
-                    .setOrigin(0, 1).setScale(0.4);
+                people = this.peoples.create(this.game.config.width + distance, this.game.config.height - 180, 'people2')
+                    .setOrigin(0, 1).setScale(0.9);
                 break;
             case 3:
-                people = this.peoples.create(this.game.config.width + distance, this.game.config.height - 90, 'people3')
-                    .setOrigin(0, 1).setScale(0.4);
+                people = this.peoples.create(this.game.config.width + distance, this.game.config.height - 180, 'people3')
+                    .setOrigin(0, 1).setScale(0.9);
                 break;
             case 4:
-                people = this.peoples.create(this.game.config.width + distance, this.game.config.height - 90, 'people4')
-                    .setOrigin(0, 1).setScale(0.4);
+                people = this.peoples.create(this.game.config.width + distance, this.game.config.height - 180, 'people4')
+                    .setOrigin(0, 1).setScale(0.9);
                 break;
             case 5:
-                people = this.peoples.create(this.game.config.width + distance, this.game.config.height - 90, 'people5')
-                    .setOrigin(0, 1).setScale(0.4);
+                people = this.peoples.create(this.game.config.width + distance, this.game.config.height - 180, 'people5')
+                    .setOrigin(0, 1).setScale(0.9);
                 break;
             default:
                 // code block
-                people = this.peoples.create(this.game.config.width + distance, this.game.config.height - 90, 'people1')
-                    .setOrigin(0, 1).setScale(0.4);
+                people = this.peoples.create(this.game.config.width + distance, this.game.config.height - 180, 'people1')
+                    .setOrigin(0, 1).setScale(0.9);
 
         }
     }
@@ -161,14 +179,14 @@ class gameScene extends Phaser.Scene {
         const distance = Phaser.Math.Between(200, 400);
         let obsticle;
         if (obsticleNum > 0 && obsticleNum <= 3) {
-            obsticle = this.obsticles.create(this.game.config.width + distance, this.game.config.height - 40, 'object1')
-                .setOrigin(0, 1).setScale(0.4);
+            obsticle = this.obsticles.create(this.game.config.width + distance, this.game.config.height - 80, 'object1')
+                .setOrigin(0, 1).setScale(0.8);
         } else if (obsticleNum > 3 && obsticleNum <= 6) {
-            obsticle = this.obsticles.create(this.game.config.width + distance, this.game.config.height - 40, 'object2')
-                .setOrigin(0, 1).setScale(0.4);
+            obsticle = this.obsticles.create(this.game.config.width + distance, this.game.config.height - 80, 'object2')
+                .setOrigin(0, 1).setScale(0.8);
         } else {
-            obsticle = this.obsticles.create(this.game.config.width + distance, this.game.config.height - 40, 'object3')
-                .setOrigin(0, 1).setScale(0.4);
+            obsticle = this.obsticles.create(this.game.config.width + distance, this.game.config.height - 80, 'object3')
+                .setOrigin(0, 1).setScale(0.8);
         }
         obsticle.setImmovable();
     }
@@ -179,7 +197,7 @@ class gameScene extends Phaser.Scene {
     highItemsPay() {
         let highItemsGroup;
         const distance = Phaser.Math.Between(650, 750);
-        highItemsGroup = this.highItems.create(this.game.config.width + distance, 160, `highItem`).setOrigin(0, 0).setScale(0.4);
+        highItemsGroup = this.highItems.create(this.game.config.width + distance, this.game.config.height / 2 - 195, `highItem`).setOrigin(0, 0).setScale(1);
     }
 
 
@@ -188,7 +206,7 @@ class gameScene extends Phaser.Scene {
     midItemsPay() {
         let midItemsGroup;
         const distance = Phaser.Math.Between(350, 450);
-        midItemsGroup = this.midItems.create(this.game.config.width + distance, 90, `midItem`).setOrigin(0, 0).setScale(0.5);
+        midItemsGroup = this.midItems.create(this.game.config.width + distance, this.game.config.height / 2 - 260, `midItem`).setOrigin(0, 0).setScale(1);
     }
 
 
@@ -196,9 +214,9 @@ class gameScene extends Phaser.Scene {
     // --------------- lowpay Items -----------------
     lowItemsPay() {
         let lowGroupItem1, lowGroupItem2, lowGroupItem3;
-        lowGroupItem1 = this.lowItems.create(this.game.config.width + 120, 310, `lowItem1`).setOrigin(0, 0).setScale(0.3);
-        lowGroupItem2 = this.lowItems.create(this.game.config.width + 80, 310, `lowItem2`).setOrigin(0, 0).setScale(0.3);
-        lowGroupItem3 = this.lowItems.create(this.game.config.width + 160, 310, `lowItem3`).setOrigin(0, 0).setScale(0.3);
+        lowGroupItem1 = this.lowItems.create(this.game.config.width + 160, this.game.config.height / 5 * 4, `lowItem1`).setOrigin(0, 0).setScale(0.55);
+        lowGroupItem2 = this.lowItems.create(this.game.config.width + 70, this.game.config.height / 5 * 4, `lowItem2`).setOrigin(0, 0).setScale(0.55);
+        lowGroupItem3 = this.lowItems.create(this.game.config.width + 230, this.game.config.height / 5 * 4, `lowItem3`).setOrigin(0, 0).setScale(0.55);
     }
 
 
@@ -233,21 +251,21 @@ class gameScene extends Phaser.Scene {
         lowItems.disableBody(true, true);
         score += 10;
         scoreLimit += 10;
-        this.scoreText.setText('score: ' + score);
+        this.scoreText.setText(score);
     }
 
     collectMidItems(player, midItems) {
         midItems.disableBody(true, true);
         score += 30;
         scoreLimit += 30;
-        this.scoreText.setText('score: ' + score);
+        this.scoreText.setText(score);
     }
 
     collectHighItems(player, highItems) {
         highItems.disableBody(true, true);
         score += 50;
         scoreLimit += 50;
-        this.scoreText.setText('score: ' + score);
+        this.scoreText.setText(score);
     }
 
     hurtPlayer(player, obsticles) {
@@ -261,7 +279,7 @@ class gameScene extends Phaser.Scene {
         if (this.livesCounter == 0) {
             this.gameEnd();
         }
-        
+
 
         this.blink = this.tweens.add({
             targets: this.player,
@@ -303,16 +321,19 @@ class gameScene extends Phaser.Scene {
         this.respawnTime += delta * this.gameSpeed * 0.08;
 
         if (scoreLimit >= 100) {
-            this.gameSpeed += 0.5;
-            this.gravity += 150;
+            this.gameSpeed += 0.6;
+            this.maxVelocity -= 10;
+            this.gravity += 100;
             scoreLimit = 0;
         }
-        if (this.respawnTime >= 700) {
+
+
+
+        if (this.respawnTime >= 1200) {
             this.placeEnviroment();
             this.placeObsticle();
             this.respawnTime = 0;
         }
-
 
         this.obsticles.getChildren().forEach(obsticle => {
             if (obsticle.getBounds().right < 0) {
@@ -329,10 +350,11 @@ class gameScene extends Phaser.Scene {
 
         if (this.cursors.space.isDown) {
             if (this.player.body.onFloor()) {
-                this.player.body.velocity.y = -520;
+                this.player.body.velocity.y = -this.maxVelocity;
                 this.player.anims.play('player-jump');
             }
         }
+
     }
 
 
@@ -346,7 +368,7 @@ class gameScene extends Phaser.Scene {
                 start: 1,
                 end: 4
             }),
-            frameRate: 12,
+            frameRate: 10,
             repeat: -1
         });
 
@@ -356,7 +378,7 @@ class gameScene extends Phaser.Scene {
                 key: 'bobby',
                 frame: 'bobby-jump_2.png'
             }],
-            frameRate: 12
+            frameRate: 10
         });
 
         this.anims.create({
@@ -365,15 +387,24 @@ class gameScene extends Phaser.Scene {
                 key: 'bobby',
                 frame: 'bobby-dead.png'
             }],
-            frameRate: 12
+            frameRate: 10
         });
+
     }
 
 
     // -------- Timer handle -------------
     timer() {
         this.timeLimit = 90;
-        this.timeText = this.add.text(this.game.config.width - 110, 10, '90');
+        // this.timeGroup = this.add.container();
+        this.timeBg = this.add.image(this.game.config.width - 110, 35, 'clock-bg').setOrigin(0.5, 0.5).setScale(0.45);
+        this.timeText = this.add.text(this.game.config.width - 105, 23, '90', {
+            fontSize: '30px',
+            fill: '#000'
+        });
+        // this.timeGroup.add([
+        //     this.timeBg, this.timeText
+        // ]);
         this.timeText.fill = '#000000';
         this.timers = this.time.addEvent({
             delay: 1000,
@@ -414,12 +445,21 @@ class gameScene extends Phaser.Scene {
         this.physics.pause();
         this.timers.remove();
 
+
         if (highScore < score) {
             highScore = score;
         }
 
+        this.endText = this.tweens.add({
+            targets: this.gameOverText,
+            x: 600,
+            ease: 'Power2',
+            duration: 1000,
+        });
+
+
         this.time.addEvent({
-            delay: 1000,
+            delay: 1500,
             loop: false,
             callback: () => {
                 this.scene.start('gameOver', {
@@ -428,6 +468,6 @@ class gameScene extends Phaser.Scene {
                     time: this.timeLimit
                 });
             }
-        })
+        });
     }
 }

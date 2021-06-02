@@ -4,8 +4,8 @@
 			"image": "player.png",
 			"format": "RGBA8888",
 			"size": {
-				"w": 869,
-				"h": 307
+				"w": 684,
+				"h": 232
 			},
 			"scale": 1,
 			"frames": [
@@ -14,20 +14,20 @@
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
-						"w": 133,
-						"h": 287
+						"w": 99,
+						"h": 230
 					},
 					"spriteSourceSize": {
 						"x": 0,
 						"y": 0,
-						"w": 133,
-						"h": 287
+						"w": 99,
+						"h": 230
 					},
 					"frame": {
-						"x": 0,
-						"y": 0,
-						"w": 133,
-						"h": 287
+						"x": 1,
+						"y": 1,
+						"w": 99,
+						"h": 230
 					}
 				},
 				{
@@ -35,20 +35,20 @@
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
-						"w": 147,
-						"h": 286
+						"w": 109,
+						"h": 230
 					},
 					"spriteSourceSize": {
 						"x": 0,
 						"y": 0,
-						"w": 147,
-						"h": 286
+						"w": 109,
+						"h": 230
 					},
 					"frame": {
-						"x": 133,
-						"y": 0,
-						"w": 147,
-						"h": 286
+						"x": 102,
+						"y": 1,
+						"w": 109,
+						"h": 230
 					}
 				},
 				{
@@ -56,20 +56,20 @@
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
-						"w": 139,
-						"h": 287
+						"w": 117,
+						"h": 230
 					},
 					"spriteSourceSize": {
 						"x": 0,
 						"y": 0,
-						"w": 139,
-						"h": 287
+						"w": 117,
+						"h": 230
 					},
 					"frame": {
-						"x": 280,
-						"y": 0,
-						"w": 139,
-						"h": 287
+						"x": 213,
+						"y": 1,
+						"w": 117,
+						"h": 230
 					}
 				},
 				{
@@ -77,20 +77,20 @@
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
-						"w": 129,
-						"h": 288
+						"w": 107,
+						"h": 230
 					},
 					"spriteSourceSize": {
 						"x": 0,
 						"y": 0,
-						"w": 129,
-						"h": 288
+						"w": 107,
+						"h": 230
 					},
 					"frame": {
-						"x": 419,
-						"y": 0,
-						"w": 129,
-						"h": 288
+						"x": 332,
+						"y": 1,
+						"w": 107,
+						"h": 230
 					}
 				},
 				{
@@ -98,41 +98,41 @@
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
-						"w": 170,
-						"h": 307
+						"w": 130,
+						"h": 230
 					},
 					"spriteSourceSize": {
 						"x": 0,
 						"y": 0,
-						"w": 170,
-						"h": 307
+						"w": 130,
+						"h": 230
 					},
 					"frame": {
-						"x": 548,
-						"y": 0,
-						"w": 170,
-						"h": 307
+						"x": 441,
+						"y": 1,
+						"w": 130,
+						"h": 230
 					}
 				},
 				{
 					"filename": "bobby-dead.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
-						"w": 153,
-						"h": 299
+						"w": 110,
+						"h": 215
 					},
 					"spriteSourceSize": {
-						"x": 1,
-						"y": 1,
-						"w": 151,
-						"h": 296
+						"x": 0,
+						"y": 0,
+						"w": 110,
+						"h": 215
 					},
 					"frame": {
-						"x": 718,
-						"y": 0,
-						"w": 151,
-						"h": 296
+						"x": 573,
+						"y": 1,
+						"w": 110,
+						"h": 215
 					}
 				}
 			]
@@ -141,6 +141,6 @@
 	"meta": {
 		"app": "https://www.codeandweb.com/texturepacker",
 		"version": "3.0",
-		"smartupdate": "$TexturePacker:SmartUpdate:1198d62cb65b9247e1c6ee082a8da67c:e195c30700e6a72db9eb880f5fb02237:86d5339b780aedd87b35e2b7c0a7e11b$"
+		"smartupdate": "$TexturePacker:SmartUpdate:66a10dd129243b1e81ec5a9ec9c8ad29:6c5de31f3c4c49d9c3d2001c7c0775ae:86d5339b780aedd87b35e2b7c0a7e11b$"
 	}
 }

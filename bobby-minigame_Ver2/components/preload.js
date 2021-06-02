@@ -5,11 +5,15 @@ class Preload extends Phaser.Scene {
         })
     }
     preload() {
-        this.load.image('title-bg', 'assets/sky.png');
         this.load.image('title', 'assets/logo.png');
         this.load.image('platform', 'assets/sf2floor.png');
         this.load.image('game-bg', 'assets/Background.png');
-        this.load.image('carrot', 'assets/carrot.png');
+        this.load.image('heart', 'assets/heart.png');
+        this.load.image('heart-bg', 'assets/Heart-bg.png');
+        this.load.image('clock-bg', 'assets/Clock-bg.png');
+        this.load.image('score-bg', 'assets/Score-bg.png');
+        this.load.image('instruction', 'assets/instruction.png');
+        this.load.image('gameover', 'assets/gameover.png');
 
         this.load.image('object1', 'assets/object1.png');
         this.load.image('object2', 'assets/object2.png');

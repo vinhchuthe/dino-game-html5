@@ -1,14 +1,13 @@
 document.addEventListener("DOMContentLoaded", function () {
+
     var game = new Phaser.Game({
         type: Phaser.AUTO,
-        width: 700,
-        height: 400,
-        roundPixels: true,
         scale: {
             mode: Phaser.Scale.FIT,
             parent: 'game-content',
             autoCenter: Phaser.Scale.CENTER_BOTH,
-            // zoom: 2
+            width: 1200,
+            height: 800
         },
         physics: {
             default: 'arcade',
@@ -16,6 +15,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 gravity: {
                     y: 0
                 },
+                fps: 60,
+                fixedStep: true,
                 debug: false
             }
         },
