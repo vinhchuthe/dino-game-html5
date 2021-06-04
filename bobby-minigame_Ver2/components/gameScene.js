@@ -393,6 +393,7 @@ class gameScene extends Phaser.Scene {
         this.timeLimit = 90;
         this.timeBg = this.add.image(this.game.config.width - 110, 35, 'clock-bg').setOrigin(0.5, 0.5).setScale(0.45);
         this.timeText = this.add.text(this.game.config.width - 105, 23, '90', {
+            fontFamily: 'CustomFont',
             fontSize: '30px',
             fill: '#000'
         });

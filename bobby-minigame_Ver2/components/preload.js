@@ -14,6 +14,7 @@ class Preload extends Phaser.Scene {
         this.load.image('score-bg', 'assets/Score-bg.png');
         this.load.image('instruction', 'assets/instruction.png');
         this.load.image('gameover', 'assets/gameover.png');
+        this.load.image('result-bg', 'assets/result-bg.png');
 
         this.load.image('object1', 'assets/object1.png');
         this.load.image('object2', 'assets/object2.png');
@@ -36,6 +37,7 @@ class Preload extends Phaser.Scene {
 
         this.load.atlas('bobby', 'assets/player.png', 'assets/player.json');
 
+        this.load.bitmapFont('customFont', 'assets/customFont_0.png', 'assets/customFont.fnt');
     }
     create() {
         this.scene.start('titleScreen');

@@ -43,9 +43,9 @@ class titleScreen extends Phaser.Scene {
     editorCreate() {
         var bg = this.add.image(this.game.config.width / 2, this.game.config.height / 2, 'game-bg');
         var title = this.add.image(this.game.config.width / 2, this.game.config.height / 2, 'title').setOrigin(0.5, 0.5);
-        var instruction = this.add.image(this.game.config.width / 2, 0, 'instruction').setOrigin(0.5, 1).setScale(0.9);
-        this.btn_bg = this.add.image(this.game.config.width / 2, this.game.config.height / 2 + 250, 'btn-bg').setScale(0.5);
-        this.btn_text = this.add.image(this.game.config.width / 2, this.game.config.height / 2 + 250, 'btn-text').setScale(0.5).setInteractive();
+        var instruction = this.add.image(this.game.config.width / 2, 0, 'instruction').setOrigin(0.5, 1).setScale(0.6);
+        this.btn_bg = this.add.image(this.game.config.width / 2, this.game.config.height / 2 + 250, 'btn-bg').setScale(1);
+        this.btn_text = this.add.image(this.game.config.width / 2, this.game.config.height / 2 + 250, 'btn-text').setScale(1).setInteractive();
         var error = this.add.text(this.game.config.width / 2, this.game.config.height / 2, "Xoay ngang màn hình", {
             fill: "#000000",
             font: '900 90px Courier',
