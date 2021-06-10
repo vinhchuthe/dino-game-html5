@@ -17,7 +17,7 @@ class gameScene extends Phaser.Scene {
         this.gravity = 750
         this.maxVelocity = 720;
         score = 0;
-        highScore = 0;
+        // highScore = 0;
         scoreLimit = 0;
         this.gameSpeed = 4.5;
         this.respawnTime = 0;
@@ -49,7 +49,7 @@ class gameScene extends Phaser.Scene {
         this.player.setCollideWorldBounds(true);
 
         // gameOver Text
-        this.gameOverText = this.add.image(this.game.config.width / 2 - 1600, this.game.config.height / 2, 'gameover').setOrigin(0.5, 0.5).setScale(0.8).setDepth(7);
+        this.gameOverText = this.add.image(this.game.config.width / 2, this.game.config.height / 2, 'gameover').setOrigin(0.5, 0.5).setScale(0).setDepth(7);
 
         // collider
         this.physics.add.collider(this.player, this.platform);
@@ -91,7 +91,8 @@ class gameScene extends Phaser.Scene {
 
         // score
         this.scoreBg = this.add.image(this.game.config.width / 2 - 210, 40, 'score-bg').setOrigin(0.5, 0.5).setScale(0.5);
-        this.scoreText = this.add.text(this.game.config.width / 2 - 210, 25, '0', {
+        this.scoreText = this.add.text(this.game.config.width / 2 - 210, 20, '0', {
+            fontFamily: 'Arial Black',
             fontSize: '35px',
             fill: '#000'
         });
@@ -392,8 +393,8 @@ class gameScene extends Phaser.Scene {
     timer() {
         this.timeLimit = 90;
         this.timeBg = this.add.image(this.game.config.width - 110, 35, 'clock-bg').setOrigin(0.5, 0.5).setScale(0.45);
-        this.timeText = this.add.text(this.game.config.width - 105, 23, '90', {
-            fontFamily: 'CustomFont',
+        this.timeText = this.add.text(this.game.config.width - 105, 20, '90', {
+            fontFamily: 'Arial Black',
             fontSize: '30px',
             fill: '#000'
         });
@@ -425,7 +426,7 @@ class gameScene extends Phaser.Scene {
     // }
 
     outofTime() {
-        this.gameEnd();
+        // this.gameEnd();
     }
 
 
@@ -443,7 +444,8 @@ class gameScene extends Phaser.Scene {
 
         this.endText = this.tweens.add({
             targets: this.gameOverText,
-            x: 600,
+            scaleX: 1,
+            scaleY: 1,
             ease: 'Power2',
             duration: 1000,
         });
