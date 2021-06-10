@@ -92,7 +92,7 @@ class gameScene extends Phaser.Scene {
         // score
         this.scoreBg = this.add.image(this.game.config.width / 2 - 210, 40, 'score-bg').setOrigin(0.5, 0.5).setScale(0.5);
         this.scoreText = this.add.text(this.game.config.width / 2 - 210, 20, '0', {
-            fontFamily: 'Arial Black',
+            fontFamily: 'Verdana Black',
             fontSize: '35px',
             fill: '#000'
         });
@@ -394,7 +394,7 @@ class gameScene extends Phaser.Scene {
         this.timeLimit = 90;
         this.timeBg = this.add.image(this.game.config.width - 110, 35, 'clock-bg').setOrigin(0.5, 0.5).setScale(0.45);
         this.timeText = this.add.text(this.game.config.width - 105, 20, '90', {
-            fontFamily: 'Arial Black',
+            fontFamily: 'Verdana Black',
             fontSize: '30px',
             fill: '#000'
         });

@@ -37,7 +37,6 @@ class Preload extends Phaser.Scene {
         this.load.image('btn-text', 'assets/button-text.png');
 
         this.load.atlas('bobby', 'assets/player.png', 'assets/player.json');
-
     }
     create() {
         this.scene.start('titleScreen');
