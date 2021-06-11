@@ -16,6 +16,7 @@ class Preload extends Phaser.Scene {
         this.load.image('gameover', 'assets/gameover.png');
         this.load.image('result-bg', 'assets/result-bg.png');
         this.load.image('reset-btn', 'assets/reset_btn.png');
+        this.load.image('finish-btn', 'assets/finish_btn.png');
 
         this.load.image('object1', 'assets/object1.png');
         this.load.image('object2', 'assets/object2.png');
@@ -40,5 +41,6 @@ class Preload extends Phaser.Scene {
     }
     create() {
         this.scene.start('titleScreen');
+        // this.scene.start('gameOver');
     }
 }

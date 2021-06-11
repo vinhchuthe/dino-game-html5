@@ -21,5 +21,6 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         },
         scene: [Preload, titleScreen, gameScene, gameOver]
+        // scene: [Preload, gameOver]
     });
 });

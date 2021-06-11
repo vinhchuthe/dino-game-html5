@@ -31,18 +31,28 @@ class gameOver extends Phaser.Scene {
             fill: '#000'
         }).setOrigin(0, 0.5);
 
-        this.reset = this.add.image(0, 200, 'reset-btn').setOrigin(0.5, 0).setScale(0.9).setInteractive();
+        this.reset = this.add.image(150, 190, 'reset-btn').setOrigin(0.5, 0).setScale(0.9).setInteractive();
+        this.finish = this.add.image(-150, 190, 'finish-btn').setOrigin(0.5, 0).setScale(0.9).setInteractive();
 
         this.reset.on('pointerdown', () => {
             this.scene.start('gameScene');
         }, null, this);
+
+        this.finish.on('pointerdown', () => {
+            document.getElementById('ranking-popup').classList.add("visible");
+            setTimeout(function () {
+                document.getElementById('ranking-popup').classList.add("active");
+            }, 200);
+        }, null, this);
+
 
         this.scoreboard.add([
             this.scoreBg,
             this.gameScore,
             this.gameHighScore,
             this.gameTime,
-            this.reset
+            this.reset,
+            this.finish
         ]);
 
         this.tweens.add({
