@@ -65,45 +65,62 @@ class gameScene extends Phaser.Scene {
         // Pick tree
         this.picktreeIcon1.on('pointerdown', () => {
             this.treeIndex = 1;
-            this.treeStatus += 1;
-            this.tree = this.add.image(this.game.config.width / 2, this.game.config.height * (7.5 / 9), 'tree-small').setOrigin(0.5).setScale(0.45);
-
-            var target = this.pickTreeContainer;
-            var tween = this.tweens.add({
-                targets: target,
-                callbackScope: tween,
-                duration: 500,
-                ease: 'Linear',
-                alpha: 0,
-                completeDelay: 0,
-                onComplete: function () {
-                    target.destroy();
-                },
-                onCompleteScope: tween,
-            });
+            this.pickTree();
         }, null, this);
 
-        // Grow tree
+        this.picktreeIcon2.on('pointerdown', () => {
+            this.treeIndex = 2;
+            this.pickTree();
+        }, null, this);
 
+        this.picktreeIcon3.on('pointerdown', () => {
+            this.treeIndex = 3;
+            this.pickTree();
+        }, null, this);
+
+
+        // Grow tree
         this.gamebtn1.on('pointerdown', () => {
+            let fullGrow = this.treeIndex;
             if (this.Btn1_allowClick == true) {
-                this.growTree();
+                this.growTree(fullGrow);
             }
             this.Btn1_allowClick = false;
         }, null, this);
 
         this.gamebtn2.on('pointerdown', () => {
+            let fullGrow = this.treeIndex;
             if (this.Btn2_allowClick == true) {
-                this.growTree();
+                this.growTree(fullGrow);
             }
             this.Btn2_allowClick = false;
         }, null, this);
     }
 
-    growTree() {
+    pickTree() {
+        this.treeStatus = 1;
+        this.tree = this.add.image(this.game.config.width / 2, this.game.config.height * (7.5 / 9), 'tree-small').setOrigin(0.5).setScale(0.45);
+
+        var target = this.pickTreeContainer;
+        var tween = this.tweens.add({
+            targets: target,
+            callbackScope: tween,
+            duration: 500,
+            ease: 'Linear',
+            alpha: 0,
+            completeDelay: 0,
+            onComplete: function () {
+                target.destroy();
+            },
+            onCompleteScope: tween,
+        });
+    }
+
+    growTree(index) {
         this.treeStatus += 1;
         this.tree.destroy();
         this.tree = null;
+        console.log('treeIndex: ' + this.treeIndex);
 
         if (this.treeStatus == 2) {
             this.tree = this.add.image(this.game.config.width / 2, this.game.config.height * (6.5 / 9), 'tree-mid').setOrigin(0.5).setScale(0.45);
