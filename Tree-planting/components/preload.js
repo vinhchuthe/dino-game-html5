@@ -22,6 +22,6 @@ class Preload extends Phaser.Scene {
         this.load.image('popup-bg', 'assets/image/popup-bg.png');
     }
     create() {
-        this.scene.start('gameScene');
+        this.scene.start('titleScreen');
     }
 }
