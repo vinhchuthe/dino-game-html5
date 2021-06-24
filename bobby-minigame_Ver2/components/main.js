@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 },
                 fps: 60,
                 fixedStep: true,
-                debug: true
+                debug: false
             }
         },
         scene: [Preload, titleScreen, gameScene, gameOver]
