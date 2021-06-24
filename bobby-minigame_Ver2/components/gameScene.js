@@ -14,12 +14,12 @@ class gameScene extends Phaser.Scene {
         this.scrollSpeed = 0;
         this.isHit = false;
         this.isDead = false;
-        this.gravity = 750
-        this.maxVelocity = 720;
+        this.gravity = 1650
+        this.maxVelocity = 1070;
         score = 0;
         // highScore = 0;
         scoreLimit = 0;
-        this.gameSpeed = 4.5;
+        this.gameSpeed = 5.5;
         this.respawnTime = 0;
         this.livesCounter = 5;
         this.lives = null;
@@ -42,6 +42,7 @@ class gameScene extends Phaser.Scene {
         this.player.body.setSize(this.player.width + 5, this.player.height, true);
         this.player.body.offset.y = 0;
         this.player.body.offset.x = 10;
+        // this.player.body.velocity.y = 750;
         this.player.setDepth(6);
         this.player.setScale(0.8);
         this.player.setBounce(0);
@@ -97,6 +98,58 @@ class gameScene extends Phaser.Scene {
             fill: '#000'
         });
 
+        // Sound
+        this.jump = this.sound.add('jump-sound', {
+            mute: false,
+            volume: 1,
+            rate: 1,
+            detune: 0,
+            seek: 0,
+            loop: false,
+            delay: 0
+        });
+
+        this.collect = this.sound.add('collect-item', {
+            mute: false,
+            volume: 0.75,
+            rate: 1,
+            detune: 0,
+            seek: 0,
+            loop: false,
+            delay: 0
+        });
+
+        this.oversound = this.sound.add('over-sound', {
+            mute: false,
+            volume: 1,
+            rate: 1,
+            detune: 0,
+            seek: 0,
+            loop: false,
+            delay: 0
+        });
+
+        this.hitPLayer = this.sound.add('hit-player', {
+            mute: false,
+            volume: 1,
+            rate: 1,
+            detune: 0,
+            seek: 0,
+            loop: false,
+            delay: 0
+        });
+
+        this.bgMusic = this.sound.add('bg-music', {
+            mute: false,
+            volume: 0.5,
+            rate: 1,
+            detune: 0,
+            seek: 0,
+            loop: true,
+            delay: 0
+        });
+        this.bgMusic.play();
+
         // lives
         this.liveBg = this.add.image(130, 40, 'heart-bg').setOrigin(0.5, 0.5).setScale(0.5);
         this.lives = this.add.group();
@@ -114,6 +167,7 @@ class gameScene extends Phaser.Scene {
             if (this.player.body.onFloor()) {
                 this.player.body.velocity.y = -this.maxVelocity;
                 this.player.anims.play('player-jump');
+                this.jump.play();
             }
         }, null, this);
 
@@ -248,6 +302,7 @@ class gameScene extends Phaser.Scene {
         score += 10;
         scoreLimit += 10;
         this.scoreText.setText(score);
+        this.collect.play();
     }
 
     collectMidItems(player, midItems) {
@@ -255,6 +310,7 @@ class gameScene extends Phaser.Scene {
         score += 30;
         scoreLimit += 30;
         this.scoreText.setText(score);
+        this.collect.play();
     }
 
     collectHighItems(player, highItems) {
@@ -262,12 +318,14 @@ class gameScene extends Phaser.Scene {
         score += 50;
         scoreLimit += 50;
         this.scoreText.setText(score);
+        this.collect.play();
     }
 
     hurtPlayer(player, obsticles) {
         this.isHit = true;
         var live;
         live = this.lives.getFirstAlive();
+        this.hitPLayer.play();
         if (live) {
             live.destroy();
         }
@@ -318,8 +376,8 @@ class gameScene extends Phaser.Scene {
 
         if (scoreLimit >= 100) {
             this.gameSpeed += 0.7;
-            this.maxVelocity -= 10;
-            this.gravity += 100;
+            this.maxVelocity += 10;
+            this.gravity += 350;
             scoreLimit = 0;
         }
 
@@ -348,6 +406,7 @@ class gameScene extends Phaser.Scene {
             if (this.player.body.onFloor()) {
                 this.player.body.velocity.y = -this.maxVelocity;
                 this.player.anims.play('player-jump');
+                this.jump.play();
             }
         }
 
@@ -426,7 +485,7 @@ class gameScene extends Phaser.Scene {
     // }
 
     outofTime() {
-        // this.gameEnd();
+        this.gameEnd();
     }
 
 
@@ -436,7 +495,8 @@ class gameScene extends Phaser.Scene {
         this.isGameRunning = false;
         this.physics.pause();
         this.timers.remove();
-
+        this.oversound.play();
+        this.bgMusic.stop();
 
         if (highScore < score) {
             highScore = score;

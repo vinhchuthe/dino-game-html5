@@ -37,6 +37,13 @@ class Preload extends Phaser.Scene {
         this.load.image('btn-bg', 'assets/button-bg.png');
         this.load.image('btn-text', 'assets/button-text.png');
 
+        this.load.audio('jump-sound', 'assets/sound/jump-sound.wav');
+        this.load.audio('collect-item', 'assets/sound/collect-item.wav');
+        this.load.audio('over-sound', 'assets/sound/game-over.wav');
+        this.load.audio('bg-music', 'assets/sound/background.wav');
+        this.load.audio('click-sound', 'assets/sound/click-sound.wav');
+        this.load.audio('hit-player', 'assets/sound/hit-player.wav');
+
         this.load.atlas('bobby', 'assets/player.png', 'assets/player.json');
     }
     create() {

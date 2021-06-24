@@ -15,12 +15,23 @@ class titleScreen extends Phaser.Scene {
         this.show_howto = false;
         this.editorCreate();
 
+        this.click = this.sound.add('click-sound', {
+            mute: false,
+            volume: 1,
+            rate: 1,
+            detune: 0,
+            seek: 0,
+            loop: false,
+            delay: 0
+        });
+
 
         // check oriention if mobile
         this.checkmb();
 
         if (this.is_landscape = true) {
             this.btn_text.on('pointerdown', () => {
+                this.click.play();
                 if (this.show_howto == false) {
                     this.time.addEvent({
                         delay: 1000,

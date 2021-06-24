@@ -45,6 +45,7 @@ class gameScene extends Phaser.Scene {
         this.player = this.physics.add.sprite(50, this.game.config.height - 60, 'robo');
         this.player.body.setSize(this.player.width * 0.7, this.player.height * 0.8);
         this.player.body.offset.y = 54;
+        this.player.body.velocity.y = 650;
         this.player.setScale(0.4);
         this.player.setBounce(0);
         this.player.body.gravity.y = 750;
