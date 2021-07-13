@@ -42,6 +42,9 @@ class gameScene extends Phaser.Scene {
         this.createBoxes();
         this.itemGroup = this.add.group();
 
+        // Header
+
+
         // Time
         this.timer();
 
@@ -212,8 +215,8 @@ class gameScene extends Phaser.Scene {
 
     // -------- Timer handle -------------
     timer() {
-        this.timeLimit = 20;
-        this.timeText = this.add.text(this.game.config.width - 105, 20, '20', {
+        this.timeLimit = 10;
+        this.timeText = this.add.text(this.game.config.width - 105, 20, '10', {
             fontFamily: 'Verdana Black',
             fontSize: '30px',
             fill: '#fff'
@@ -236,8 +239,8 @@ class gameScene extends Phaser.Scene {
     }
 
     outofTime() {
-        // this.gameEnd();
-        this.timeLimit = 20;
+        this.gameEnd();
+        // this.timeLimit = 10;
     }
 
 
