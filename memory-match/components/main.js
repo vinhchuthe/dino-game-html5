@@ -4,7 +4,7 @@ var config = {
         mode: Phaser.Scale.FIT,
         parent: 'game-content',
         autoCenter: Phaser.Scale.CENTER_BOTH,
-        width: 800,
+        width: 500,
         height: 700,
     },
     physics: {
@@ -16,7 +16,7 @@ var config = {
             debug: true
         }
     },
-    scene: [preload, gameScene]
+    scene: [preload, gameScene, gameOver]
 };
 
 var game = new Phaser.Game(config);

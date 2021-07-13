@@ -1,10 +1,12 @@
-const row1 = [1, 0, 3];
-const row2 = [2, 4, 1];
-const row3 = [3, 4, 2];
+const row1 = [1, 2, 3];
+const row2 = [2, 3, 4];
+const row3 = [4, 5, 6];
+const row4 = [6, 5, 1];
 const level = [
     row1,
     row2,
-    row3
+    row3,
+    row4
 ];
 
 
@@ -20,6 +22,7 @@ class gameScene extends Phaser.Scene {
     random = [];
     itemGroup;
     activeCard;
+    waitForNewRound = false;
     matchesCount = 0;
     selectedCard = [];
 
@@ -29,15 +32,18 @@ class gameScene extends Phaser.Scene {
             height
         } = this.game.config;
 
+        this.matchesCount = 0;
+
         this.boxGroup = this.physics.add.staticGroup();
 
         // Random matrix
         this.randomMatrix();
 
-        console.log(this.random);
-
         this.createBoxes();
         this.itemGroup = this.add.group();
+
+        // Time
+        this.timer();
 
         this.handleInput();
     }
@@ -46,21 +52,22 @@ class gameScene extends Phaser.Scene {
         this.ranRow1 = Phaser.Utils.Array.Shuffle(row1);
         this.ranRow2 = Phaser.Utils.Array.Shuffle(row2);
         this.ranRow3 = Phaser.Utils.Array.Shuffle(row3);
+        this.ranRow4 = Phaser.Utils.Array.Shuffle(row4);
         this.random = Phaser.Utils.Array.Shuffle(level);
     }
 
     createBoxes() {
         const width = this.game.config.width;
-        let xPer = 0.25;
-        let y = 200;
+        let xPer = 0.24;
+        let y = 220;
         for (let row = 0; row < this.random.length; ++row) {
             for (let col = 0; col < this.random[row].length; ++col) {
                 const card = this.boxGroup.get(width * xPer, y, 'backCard');
-                card.setSize(106, 150).setScale(0.85).setData('itemType', this.random[row][col]);
+                card.setSize(105, 105).setScale(0.405).setData('itemType', this.random[row][col]);
                 xPer += 0.25;
             }
-            xPer = 0.25;
-            y += 170;
+            xPer = 0.24;
+            y += 130;
         }
     }
 
@@ -93,29 +100,33 @@ class gameScene extends Phaser.Scene {
         let item;
 
         switch (itemType) {
-            case 0:
-                item = this.itemGroup.get(box.x, box.y)
-                item.setTexture('frontCard')
-                break
-
             case 1:
                 item = this.itemGroup.get(box.x, box.y)
-                item.setTexture('card1')
+                item.setTexture('card1').setScale(0.8);
                 break
 
             case 2:
                 item = this.itemGroup.get(box.x, box.y)
-                item.setTexture('card2')
+                item.setTexture('card2').setScale(0.8);
                 break
 
             case 3:
                 item = this.itemGroup.get(box.x, box.y)
-                item.setTexture('card3')
+                item.setTexture('card3').setScale(0.8);
                 break
 
             case 4:
                 item = this.itemGroup.get(box.x, box.y)
-                item.setTexture('card4')
+                item.setTexture('card4').setScale(0.8);
+                break
+
+            case 5:
+                item = this.itemGroup.get(box.x, box.y)
+                item.setTexture('card5').setScale(0.8);
+                break
+            case 6:
+                item = this.itemGroup.get(box.x, box.y)
+                item.setTexture('card6').setScale(0.8);
                 break
         }
 
@@ -135,30 +146,13 @@ class gameScene extends Phaser.Scene {
             item
         })
 
-        this.time.delayedCall(500, () => {
-            if (itemType === 0) {
-                this.handleTrapSelected();
-                return;
-            }
+        this.time.delayedCall(300, () => {
 
             if (this.selectedCard.length < 2) {
                 return
             }
+
             this.checkForMatch();
-        })
-    }
-
-    handleTrapSelected() {
-        const {
-            box,
-            item
-        } = this.selectedCard.pop();
-
-        item.setTint(0xff0000);
-
-        this.time.delayedCall(500, () => {
-            item.setTint(0xffffff);
-            box.setData('opened', false);
         })
     }
 
@@ -167,7 +161,7 @@ class gameScene extends Phaser.Scene {
         const first = this.selectedCard.pop();
 
         if (first.item.texture !== second.item.texture) {
-            this.time.delayedCall(500, () => {
+            this.time.delayedCall(300, () => {
                 this.itemGroup.killAndHide(first.item);
                 this.itemGroup.killAndHide(second.item);
 
@@ -175,17 +169,14 @@ class gameScene extends Phaser.Scene {
                 second.box.setData('opened', false);
             })
             return
+
         }
 
         ++this.matchesCount
 
         this.time.delayedCall(1000, () => {
-            if (this.matchesCount >= 4) {
-                // this.countdown.stop();
-                // this.add.text(this.game.config.width * 0.5, this.game.config.height * 0.5, 'You Win!', {
-                //     fonstSize: 48
-                // }).setOrigin(0.5).setDepth(3000)
-                console.log('You Win!');
+            if (this.matchesCount >= 6) {
+                this.gameEnd();
             }
         })
     }
@@ -216,5 +207,53 @@ class gameScene extends Phaser.Scene {
 
             child.setDepth(child.y)
         })
+    }
+
+
+    // -------- Timer handle -------------
+    timer() {
+        this.timeLimit = 20;
+        this.timeText = this.add.text(this.game.config.width - 105, 20, '20', {
+            fontFamily: 'Verdana Black',
+            fontSize: '30px',
+            fill: '#fff'
+        });
+        this.timeText.fill = '#ffffff';
+        this.timers = this.time.addEvent({
+            delay: 1000,
+            loop: true,
+            callbackScope: this,
+            callback: this.tick,
+        }, this)
+    }
+
+    tick() {
+        this.timeLimit--;
+        this.timeText.text = this.timeLimit;
+        if (this.timeLimit === 0) {
+            this.outofTime();
+        }
+    }
+
+    outofTime() {
+        // this.gameEnd();
+        this.timeLimit = 20;
+    }
+
+
+    // ------------- Game Over ----------------
+    gameEnd() {
+        this.timers.remove();
+
+        this.time.addEvent({
+            delay: 500,
+            loop: false,
+            callback: () => {
+                this.scene.start('gameOver', {
+                    score: this.matchesCount,
+                    time: this.timeLimit
+                });
+            }
+        });
     }
 };
