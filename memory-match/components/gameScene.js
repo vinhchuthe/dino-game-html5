@@ -19,6 +19,7 @@ class gameScene extends Phaser.Scene {
     }
 
     boxGroup;
+    card;
     random = [];
     itemGroup;
     activeCard;
@@ -65,8 +66,8 @@ class gameScene extends Phaser.Scene {
         let y = 220;
         for (let row = 0; row < this.random.length; ++row) {
             for (let col = 0; col < this.random[row].length; ++col) {
-                const card = this.boxGroup.get(width * xPer, y, 'backCard');
-                card.setSize(105, 105).setScale(0.405).setData('itemType', this.random[row][col]);
+                this.card = this.boxGroup.get(width * xPer, y, 'backCard');
+                this.card.setSize(105, 105).setScale(0.405).setOrigin(0.5).setData('itemType', this.random[row][col]);
                 xPer += 0.25;
             }
             xPer = 0.24;
@@ -149,7 +150,9 @@ class gameScene extends Phaser.Scene {
             item
         })
 
-        this.time.delayedCall(300, () => {
+        console.log(...this.selectedCard);
+
+        this.time.delayedCall(100, () => {
 
             if (this.selectedCard.length < 2) {
                 return
@@ -164,7 +167,7 @@ class gameScene extends Phaser.Scene {
         const first = this.selectedCard.pop();
 
         if (first.item.texture !== second.item.texture) {
-            this.time.delayedCall(300, () => {
+            this.time.delayedCall(200, () => {
                 this.itemGroup.killAndHide(first.item);
                 this.itemGroup.killAndHide(second.item);
 
@@ -177,7 +180,7 @@ class gameScene extends Phaser.Scene {
 
         ++this.matchesCount
 
-        this.time.delayedCall(1000, () => {
+        this.time.delayedCall(500, () => {
             if (this.matchesCount >= 6) {
                 this.gameEnd();
             }
