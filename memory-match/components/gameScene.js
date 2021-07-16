@@ -216,7 +216,7 @@ class gameScene extends Phaser.Scene {
     // -------- Timer handle -------------
     timer() {
         this.timeLimit = 10;
-        this.timeText = this.add.text(this.game.config.width - 105, 20, '10', {
+        this.timeText = this.add.text(this.game.config.width - 100, 20, '10', {
             fontFamily: 'Verdana Black',
             fontSize: '30px',
             fill: '#fff'

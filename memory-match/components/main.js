@@ -13,7 +13,7 @@ var config = {
             gravity: {
                 y: 0
             },
-            debug: true
+            debug: false
         }
     },
     scene: [preload, gameScene, gameOver]

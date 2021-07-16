@@ -20,31 +20,6 @@ class gameOver extends Phaser.Scene {
     }
 
     checkResult() {
-        // if (this.score >= 6) {
-        //     this.add.text(this.game.config.width / 2, this.game.config.height / 2, 'You Win!!!', {
-        //         fontFamily: 'Verdana Black',
-        //         fontSize: '50px',
-        //         fill: '#fff'
-        //     }).setOrigin(0.5);
-
-        //     this.add.text(this.game.config.width / 2, this.game.config.height / 2 + 100, 'Matched: ' + this.score + '/6', {
-        //         fontFamily: 'Verdana Black',
-        //         fontSize: '50px',
-        //         fill: '#fff'
-        //     }).setOrigin(0.5);
-        // } else {
-        //     this.add.text(this.game.config.width / 2, this.game.config.height / 2, 'You Lost!!!', {
-        //         fontFamily: 'Verdana Black',
-        //         fontSize: '50px',
-        //         fill: '#fff'
-        //     }).setOrigin(0.5);
-
-        //     this.add.text(this.game.config.width / 2, this.game.config.height / 2 + 100, 'Matched: ' + this.score + '/6', {
-        //         fontFamily: 'Verdana Black',
-        //         fontSize: '50px',
-        //         fill: '#fff'
-        //     }).setOrigin(0.5);
-        // }
         if (this.score >= 6 && this.time > 5) {
             this.scene.start('gameScene');
         } else if (this.score >= 6 && this.time < 5) {
