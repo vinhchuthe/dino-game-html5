@@ -145,10 +145,12 @@ function CountDown() {
 var modal = document.getElementById("popup1");
 var totalTime = document.getElementById("totalTime");
 var finalScore = document.getElementById("score");
-var timePLay = maxTime - second;
+
+
 
 function EndGame() {
     modal.classList.add("show");
+    var timePLay = maxTime - second;
     totalTime.innerHTML = timePLay;
     finalScore.innerHTML = matched;
 }
